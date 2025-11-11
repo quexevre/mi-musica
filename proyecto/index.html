@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Reproductor de Música 🎵</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .player {
+      background: #222;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(0, 255, 100, 0.3);
+    }
+
+    img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin: 10px 0;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    button {
+      background-color: #00ff88;
+      color: #111;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #00cc66;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      padding: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    li:hover {
+      color: #00ff88;
+    }
+
+    .active {
+      color: #00ff88;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎶 Mi lista de música</h1>
+
+  <div class="player">
+    <img id="cover" src="https://i.imgur.com/Op8R9tL.jpeg" alt="Portada del álbum">
+    <h2 id="title">Cargando...</h2>
+
+    <audio id="audio" controls></audio>
+
+    <div class="controls">
+      <button onclick="anterior()">⏮️ Anterior</button>
+      <button onclick="togglePlay()">⏯️ Play / Pausa</button>
+      <button onclick="siguiente()">⏭️ Siguiente</button>
+    </div>
+
+    <ul id="playlist"></ul>
+  </div>
+
+  <script>
+    const canciones = [
+      { titulo: "Ladki Badi Anjani Hai", archivo: "ladki-badi-anjani-hai.mp3" },
+      { titulo: "Otra Canción", archivo: "DannaPaola.mp3" },
+      { titulo: "Tercera Canción", archivo: "CancionFiesta.mp3" }
+    ];
+
+    const audio = document.getElementById("audio");
+    const title = document.getElementById("title");
+    const playlist = document.getElementById("playlist");
+    const cover = document.getElementById("cover");
+    let actual = 0;
+
+    function cargarCancion(index) {
+      const cancion = canciones[index];
+      audio.src = cancion.archivo;
+      title.textContent = cancion.titulo;
+      marcarActual(index);
+      audio.play();
+    }
+
+    function marcarActual(index) {
+      document.querySelectorAll("#playlist li").forEach((li, i) => {
+        li.classList.toggle("active", i === index);
+      });
+    }
+
+    canciones.forEach((cancion, index) => {
+      const li = document.createElement("li");
+      li.textContent = cancion.titulo;
+      li.onclick = () => {
+        actual = index;
+        cargarCancion(index);
+      };
+      playlist.appendChild(li);
+    });
+
+    function siguiente() {
+      actual = (actual + 1) % canciones.length;
+      cargarCancion(actual);
+    }
+
+    function anterior() {
+      actual = (actual - 1 + canciones.length) % canciones.length;
+      cargarCancion(actual);
+    }
+
+    function togglePlay() {
+      if (audio.paused) audio.play();
+      else audio.pause();
+    }
+
+    audio.addEventListener("ended", siguiente);
+
+    // Iniciar primera canción
+    cargarCancion(actual);
+  </script>
+
+</body>
+</html>
