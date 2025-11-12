@@ -2,23 +2,78 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi Reproductor de Música 🎵</title>
+  <title>🎵 Quexevre - Mi Reproductor de Música</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #111;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #111);
       color: #fff;
       text-align: center;
-      padding: 30px;
+      margin: 0;
+      padding: 0;
+      animation: fondo 10s infinite alternate;
     }
 
+    @keyframes fondo {
+      0% { background-color: #0d0d0d; }
+      100% { background-color: #1f1f1f; }
+    }
+
+    h1 {
+      margin-top: 25px;
+      color: #00ff88;
+      text-shadow: 0 0 15px #00ff88;
+    }
+
+    /* 🖼️ Carrusel superior */
+    .carrusel {
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto 20px auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,255,100,0.2);
+    }
+
+    .carrusel img {
+      width: 100%;
+      border-radius: 15px;
+      display: none;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carrusel img.active {
+      display: block;
+    }
+
+    .flecha {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #00ff88;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 1.2em;
+    }
+
+    .flecha:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    .flecha.izquierda { left: 10px; }
+    .flecha.derecha { right: 10px; }
+
+    /* 🎵 Reproductor */
     .player {
       background: #222;
       border-radius: 15px;
       padding: 20px;
       max-width: 400px;
-      margin: auto;
-      box-shadow: 0 0 20px rgba(0, 255, 100, 0.3);
+      margin: 30px auto;
+      box-shadow: 0 0 25px rgba(0, 255, 100, 0.3);
     }
 
     img {
@@ -27,9 +82,7 @@
       margin-bottom: 15px;
     }
 
-    h2 {
-      margin: 10px 0;
-    }
+    h2 { margin: 10px 0; }
 
     .controls {
       display: flex;
@@ -49,9 +102,7 @@
       transition: 0.2s;
     }
 
-    button:hover {
-      background-color: #00cc66;
-    }
+    button:hover { background-color: #00cc66; }
 
     ul {
       list-style: none;
@@ -65,20 +116,93 @@
       transition: 0.2s;
     }
 
-    li:hover {
-      color: #00ff88;
+    li:hover { color: #00ff88; }
+    .active { color: #00ff88; font-weight: bold; }
+
+    /* 🛍️ Productos */
+    .productos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px auto;
+      max-width: 800px;
     }
 
-    .active {
-      color: #00ff88;
+    .item {
+      background: #222;
+      border-radius: 15px;
+      width: 180px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,255,100,0.2);
+    }
+
+    .item img { width: 100%; border-radius: 10px; }
+    .item p { margin: 10px 0; font-weight: bold; }
+
+    .item a {
+      text-decoration: none;
+      background: #00ff88;
+      color: #111;
+      padding: 8px 12px;
+      border-radius: 8px;
       font-weight: bold;
+      transition: 0.2s;
+      display: inline-block;
+    }
+
+    .item a:hover { background: #00cc66; }
+
+    /* CTA y redes */
+    .cta {
+      display: inline-block;
+      margin: 40px auto;
+      background: #00ff88;
+      color: #111;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .cta:hover { background: #00cc66; }
+
+    .redes {
+      margin: 40px 0;
+      font-size: 1.1em;
+    }
+
+    .redes a {
+      color: #00ff88;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: 0.2s;
+    }
+
+    .redes a:hover { color: #fff; }
+
+    footer {
+      margin-bottom: 30px;
+      font-size: 0.9em;
+      color: #777;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎶 Mi lista de música</h1>
+  <h1>🎶 Quexevre Music</h1>
 
+  <!-- 🖼️ Carrusel de banners -->
+  <div class="carrusel">
+    <img src="anuncio.png" class="active" alt="Promo 1">
+    <img src="anuncio2.png" alt="Promo 2">
+    <img src="anuncio3.png" alt="Promo 3">
+    <button class="flecha izquierda" onclick="cambiarBanner(-1)">❮</button>
+    <button class="flecha derecha" onclick="cambiarBanner(1)">❯</button>
+  </div>
+
+  <!-- 🎧 Reproductor -->
   <div class="player">
     <img id="cover" src="portada.png" alt="Portada del álbum">
     <h2 id="title">Cargando...</h2>
@@ -86,25 +210,67 @@
     <audio id="audio" controls></audio>
 
     <div class="controls">
-      <button onclick="anterior()">⏮️ Anterior</button>
-      <button onclick="togglePlay()">⏯️ Play / Pausa</button>
-      <button onclick="siguiente()">⏭️ Siguiente</button>
+      <button onclick="anterior()">⏮️</button>
+      <button onclick="togglePlay()">⏯️</button>
+      <button onclick="siguiente()">⏭️</button>
     </div>
 
     <ul id="playlist"></ul>
   </div>
 
+  <!-- 🛍️ Productos -->
+  <h2>🛍️ Productos que te encantarán</h2>
+  <div class="productos">
+    <div class="item">
+      <img src="producto1.jpg" alt="Taza personalizada">
+      <p>Tazas personalizadas</p>
+      <a href="https://wa.me/51987654321?text=Hola,%20quiero%20una%20taza%20personalizada!" target="_blank">Pedir</a>
+    </div>
+
+    <div class="item">
+      <img src="producto2.jpg" alt="Polo sublimado">
+      <p>Polos sublimados</p>
+      <a href="https://wa.me/51987654321?text=Hola,%20quiero%20un%20polo!" target="_blank">Encargar</a>
+    </div>
+
+    <div class="item">
+      <img src="producto3.jpg" alt="Cuadro decorativo">
+      <p>Cuadros de aluminio</p>
+      <a href="https://wa.me/51987654321?text=Hola,%20me%20interesan%20los%20cuadros!" target="_blank">Ver más</a>
+    </div>
+  </div>
+
+  <!-- 💚 Marca -->
+  <h2>💚 Sobre Quexevre</h2>
+  <p>En <b>Quexevre</b> creamos productos personalizados con pasión y estilo.  
+  Cada taza, polo o cuadro cuenta una historia. 🎨  
+  Personaliza, regala y destaca con tu propio diseño.</p>
+
+  <a href="https://wa.me/51987654321?text=Hola,%20quiero%20personalizar%20un%20producto!" 
+     class="cta" target="_blank">💬 Escríbenos por WhatsApp</a>
+
+  <!-- 🔗 Redes -->
+  <div class="redes">
+    <a href="https://www.instagram.com/quexevre" target="_blank">📸 Instagram</a> |
+    <a href="https://www.facebook.com/quexevre" target="_blank">📘 Facebook</a> |
+    <a href="https://www.tiktok.com/@quexevre" target="_blank">🎵 TikTok</a>
+  </div>
+
+  <footer>
+    © 2025 Quexevre · Hecho con 💚 en Perú
+  </footer>
+
   <script>
+    /* 🎵 Reproductor */
     const canciones = [
       { titulo: "Ladki Badi Anjani Hai", archivo: "ladki-badi-anjani-hai.mp3" },
-      { titulo: "Otra Canción", archivo: "DannaPaola.mp3" },
-      { titulo: "Tercera Canción", archivo: "CancionFiesta.mp3" }
+      { titulo: "Mere Khwabon Mein", archivo: "Mere Khwabon Mein.mp3" },
+      { titulo: "Canción Fiesta", archivo: "CancionFiesta.mp3" }
     ];
 
     const audio = document.getElementById("audio");
     const title = document.getElementById("title");
     const playlist = document.getElementById("playlist");
-    const cover = document.getElementById("cover");
     let actual = 0;
 
     function cargarCancion(index) {
@@ -147,17 +313,23 @@
     }
 
     audio.addEventListener("ended", siguiente);
-
-    // Iniciar primera canción
     cargarCancion(actual);
+
+    /* 🖼️ Carrusel */
+    const banners = document.querySelectorAll(".carrusel img");
+    let indice = 0;
+
+    function mostrarBanner(i) {
+      banners.forEach((img, idx) => img.classList.toggle("active", idx === i));
+    }
+
+    function cambiarBanner(direccion) {
+      indice = (indice + direccion + banners.length) % banners.length;
+      mostrarBanner(indice);
+    }
+
+    setInterval(() => cambiarBanner(1), 4000);
   </script>
-<div class="redes">
-  <a href="https://www.instagram.com/quexevre" target="_blank">📸 Instagram</a> |
-  <a href="https://www.facebook.com/quexevre" target="_blank">📘 Facebook</a> |
-  <a href="https://www.tiktok.com/@quexevre" target="_blank">🎵 TikTok</a>
-</div>
 
 </body>
 </html>
-
-
