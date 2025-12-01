@@ -452,9 +452,10 @@
   <footer>© 2025 Quexevre - Todos los derechos reservados</footer>
 
 <script>
-// =========================
-//  REPRODUCTOR DE MÚSICA
-// =========================
+/* =========================
+   REPRODUCTOR DE MÚSICA
+========================= */
+
 const canciones = [
   { titulo: "1.- Aankhein Khuli", archivo: "Aankhein Khuli.mp3" },
   { titulo: "2.- Chalte Chalte", archivo: "Chalte Chalte.mp3" },
@@ -512,9 +513,11 @@ function togglePlay() {
 audio.addEventListener("ended", siguiente);
 cargarCancion(actual);
 
-// =========================
-// DESCARGAR WALLPAPER
-// =========================
+
+/* =========================
+   DESCARGA WALLPAPER
+========================= */
+
 function descargarWallpaper() {
   const ruta = 'fondopantalla.png';
   fetch(ruta)
@@ -529,9 +532,11 @@ function descargarWallpaper() {
     .catch(() => alert('No se pudo descargar el fondo.'));
 }
 
-// =========================
-// CARRUSEL BANNERS
-// =========================
+
+/* =========================
+   CARRUSEL DE BANNERS
+========================= */
+
 (function initBannerCarousel() {
   const bannerTrack = document.getElementById('banner-track');
   const bannerSlides = Array.from(bannerTrack.children);
@@ -580,9 +585,11 @@ function descargarWallpaper() {
   });
 })();
 
-// =========================
-// CARRUSEL DE PRODUCTOS
-// =========================
+
+/* =========================
+   CARRUSEL DE PRODUCTOS
+========================= */
+
 (function initProductCarousel() {
   const prodTrack = document.getElementById('product-track');
   const prodItems = Array.from(prodTrack.children);
@@ -624,9 +631,11 @@ function descargarWallpaper() {
       else moveProdTo(prodIndex + 1);
     }, 6000);
   }
+
   function stopProdAuto() {
     if (prodAuto) clearInterval(prodAuto);
   }
+
   startProdAuto();
 
   let prodStartX = 0;
@@ -634,6 +643,7 @@ function descargarWallpaper() {
     prodStartX = e.touches[0].clientX;
     stopProdAuto();
   });
+
   prodTrack.addEventListener('touchend', (e) => {
     const prodEndX = e.changedTouches[0].clientX;
     if (prodStartX - prodEndX > 50) moveProdTo(prodIndex + 1);
@@ -641,20 +651,20 @@ function descargarWallpaper() {
     startProdAuto();
   });
 
-  window.addEventListener('resize', () => {
-    updateProdLayout();
-  });
-
+  window.addEventListener('resize', updateProdLayout);
   updateProdLayout();
+
 })();
 
-// =========================
-// BOTONES COMPRAR → WHATSAPP
-// =========================
+
+/* =========================
+   BOTONES "COMPRAR" → WHATSAPP
+========================= */
 
 const WHATSAPP = "51937623908";
 
 document.querySelectorAll(".product").forEach(producto => {
+
   const btn = producto.querySelector(".buy");
   const nombre = producto.querySelector("h3").innerText;
   const precio = producto.querySelector("p").innerText;
@@ -669,12 +679,16 @@ document.querySelectorAll(".product").forEach(producto => {
       `🖼️ Imagen:%0A${imagen}%0A%0A` +
       `¿Está disponible?`;
 
-    const url = `https://wa.me/${WHATSAPP}?text=${mensaje}`;
+    // ✔ ESTE FORMATO NO MUESTRA MENSAJE DE WHATSAPP BUSINESS
+    const url = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${mensaje}`;
+
     window.open(url, "_blank");
   });
+
 });
 </script>
 
 </body>
 </html>
+
 
