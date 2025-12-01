@@ -452,7 +452,9 @@
   <footer>© 2025 Quexevre - Todos los derechos reservados</footer>
 
 <script>
-/* ======= Reproductor ======= */
+// =========================
+//  REPRODUCTOR DE MÚSICA
+// =========================
 const canciones = [
   { titulo: "1.- Aankhein Khuli", archivo: "Aankhein Khuli.mp3" },
   { titulo: "2.- Chalte Chalte", archivo: "Chalte Chalte.mp3" },
@@ -510,7 +512,9 @@ function togglePlay() {
 audio.addEventListener("ended", siguiente);
 cargarCancion(actual);
 
-/* ======= Descarga directa ======= */
+// =========================
+// DESCARGAR WALLPAPER
+// =========================
 function descargarWallpaper() {
   const ruta = 'fondopantalla.png';
   fetch(ruta)
@@ -525,7 +529,9 @@ function descargarWallpaper() {
     .catch(() => alert('No se pudo descargar el fondo.'));
 }
 
-/* ======= Carrusel de banners ======= */
+// =========================
+// CARRUSEL BANNERS
+// =========================
 (function initBannerCarousel() {
   const bannerTrack = document.getElementById('banner-track');
   const bannerSlides = Array.from(bannerTrack.children);
@@ -574,7 +580,9 @@ function descargarWallpaper() {
   });
 })();
 
-/* ======= Carrusel de productos ======= */
+// =========================
+// CARRUSEL DE PRODUCTOS
+// =========================
 (function initProductCarousel() {
   const prodTrack = document.getElementById('product-track');
   const prodItems = Array.from(prodTrack.children);
@@ -638,22 +646,35 @@ function descargarWallpaper() {
   });
 
   updateProdLayout();
-
-  window.irAProducto = function(productId) {
-    const el = document.getElementById(productId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
 })();
 
-/* ======= Enviar producto por WhatsApp (opcional) ======= */
-function enviarWhatsApp(producto, precio) {
-  const mensaje = `Hola, quiero información del producto: ${producto} - Precio: ${precio}`;
-  const url = `https://wa.me/51987654321?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, '_blank');
-}
+// =========================
+// BOTONES COMPRAR → WHATSAPP
+// =========================
+
+const WHATSAPP = "51937623908";
+
+document.querySelectorAll(".product").forEach(producto => {
+  const btn = producto.querySelector(".buy");
+  const nombre = producto.querySelector("h3").innerText;
+  const precio = producto.querySelector("p").innerText;
+  const imagen = producto.querySelector("img").src;
+
+  btn.addEventListener("click", () => {
+
+    const mensaje =
+      `Hola 👋, estoy interesado en este producto:%0A%0A` +
+      `📦 *${nombre}*%0A` +
+      `💵 Precio: *${precio}*%0A%0A` +
+      `🖼️ Imagen:%0A${imagen}%0A%0A` +
+      `¿Está disponible?`;
+
+    const url = `https://wa.me/${WHATSAPP}?text=${mensaje}`;
+    window.open(url, "_blank");
+  });
+});
 </script>
 
 </body>
 </html>
+
